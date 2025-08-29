@@ -701,6 +701,7 @@
         let isGyroSupported = false;
 
         // Handle device orientation for gyroscope effect
+        /* COMENTADO TEMPORALMENTE
         function handleOrientation(event) {
             if (!isGyroSupported) return;
 
@@ -724,6 +725,7 @@
             // Show gyroscope indicator
             showGyroIndicator();
         }
+        */
 
         // Handle mouse movement for desktop
         function handleMouseMove(event) {
@@ -764,6 +766,7 @@
         }
 
         // Initialize gyroscope
+        /* COMENTADO TEMPORALMENTE
         function initGyroscope() {
             if (typeof DeviceOrientationEvent !== 'undefined') {
                 // For iOS 13+ devices, request permission
@@ -791,11 +794,13 @@
                 isGyroSupported = false;
             }
         }
+        */
 
         // Gyroscope indicator management
         const gyroIndicator = document.getElementById('gyroIndicator');
         let indicatorTimeout;
         
+        /* COMENTADO TEMPORALMENTE
         function showGyroIndicator() {
             if (window.innerWidth <= 768 && isGyroSupported) {
                 gyroIndicator.classList.add('show');
@@ -811,28 +816,34 @@
             gyroIndicator.classList.remove('show');
             clearTimeout(indicatorTimeout);
         }
+        */
 
         // Event listeners for mouse interactions
         card.addEventListener('mousemove', handleMouseMove);
         card.addEventListener('mouseleave', resetCardPosition);
 
         // Touch events to trigger iOS permission request
+        /* COMENTADO TEMPORALMENTE
         card.addEventListener('touchstart', function() {
             if (window.innerWidth <= 768 && !isGyroSupported) {
                 initGyroscope();
             }
             hideGyroIndicator();
         });
+        */
 
         // Initialize on page load
+        /* COMENTADO TEMPORALMENTE
         document.addEventListener('DOMContentLoaded', () => {
             if (window.innerWidth <= 768) {
                 // Try to initialize gyroscope for mobile devices
                 initGyroscope();
             }
         });
+        */
 
         // Handle window resize
+        /* COMENTADO TEMPORALMENTE
         window.addEventListener('resize', () => {
             if (window.innerWidth <= 768) {
                 if (!isGyroSupported) {
@@ -846,6 +857,7 @@
                 resetCardPosition();
             }
         });
+        */
 
         // Contact interactions
         document.querySelectorAll('.contact-item').forEach(item => {
