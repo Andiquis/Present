@@ -54,13 +54,12 @@
                 0 0 0 1px rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.6);
             overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             will-change: transform;
             transform-style: preserve-3d;
         }
 
         .business-card:hover {
-            transform: translateY(-12px) scale(1.02);
             box-shadow: 
                 0 30px 60px rgba(0, 29, 57, 0.25),
                 0 15px 25px rgba(0, 29, 57, 0.2),
@@ -106,9 +105,10 @@
             padding: 2px;
             background: rgba(255, 255, 255, 0.2);
             margin: 0 auto;
-            transition: all 0.4s ease;
+            transition: all 0.2s ease;
             position: relative;
             overflow: hidden;
+            will-change: transform;
         }
 
         .profile-image::after {
@@ -547,11 +547,11 @@
             position: fixed;
             bottom: 20px;
             left: 20px;
-            background: rgba(0, 29, 57, 0.8);
+            background: rgba(0, 29, 57, 0.9);
             color: white;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 12px;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-size: 13px;
             font-weight: 600;
             opacity: 0;
             transform: translateY(20px);
@@ -559,7 +559,10 @@
             z-index: 1000;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 24px rgba(0, 29, 57, 0.3);
         }
 
         .gyro-indicator.show {
@@ -568,15 +571,17 @@
         }
 
         .gyro-indicator i {
-            animation: tilt 2s ease-in-out infinite;
+            animation: gyroTilt 2s ease-in-out infinite;
+            font-size: 14px;
         }
 
-        @keyframes tilt {
+        @keyframes gyroTilt {
             0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(-5deg); }
-            75% { transform: rotate(5deg); }
+            25% { transform: rotate(-8deg); }
+            75% { transform: rotate(8deg); }
         }
 
+        /* Only show on mobile devices */
         @media (max-width: 768px) {
             .gyro-indicator {
                 display: flex;
@@ -693,119 +698,112 @@
     <script>
         // Enhanced 3D card tilt effect with gyroscope support
         const card = document.getElementById('businessCard');
-        let isDeviceMotionEnabled = false;
-        let deviceMotionData = { rotateX: 0, rotateY: 0 };
-        
-        // Check if device motion is available
-        function initDeviceMotion() {
-            if (window.DeviceOrientationEvent) {
-                // For iOS 13+ we need to request permission
+        let isGyroSupported = false;
+
+        // Handle device orientation for gyroscope effect
+        function handleOrientation(event) {
+            if (!isGyroSupported) return;
+
+            const gamma = event.gamma || 0; // Y-axis rotation (-90 to 90)
+            const beta = event.beta || 0;   // X-axis rotation (-180 to 180)
+
+            // Limit rotation values for smooth effect
+            const maxTilt = 15;
+            const tiltX = Math.max(-maxTilt, Math.min(maxTilt, gamma * 0.5));
+            const tiltY = Math.max(-maxTilt, Math.min(maxTilt, beta * 0.3));
+
+            // Apply 3D transform to card
+            card.style.transform = `perspective(1000px) rotateX(${-tiltY}deg) rotateY(${tiltX}deg) translateY(-2px)`;
+
+            // Apply parallax effect to profile image
+            const profileImage = card.querySelector('.profile-image');
+            if (profileImage) {
+                profileImage.style.transform = `translate(${tiltX * 0.3}px, ${tiltY * 0.3}px) scale(1.05)`;
+            }
+
+            // Show gyroscope indicator
+            showGyroIndicator();
+        }
+
+        // Handle mouse movement for desktop
+        function handleMouseMove(event) {
+            // Only use mouse if gyroscope is not supported or on desktop
+            if (isGyroSupported && window.innerWidth <= 768) return;
+
+            const rect = card.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            const mouseX = event.clientX - centerX;
+            const mouseY = event.clientY - centerY;
+
+            const maxTilt = 12;
+            const tiltX = (mouseX / rect.width) * maxTilt;
+            const tiltY = -(mouseY / rect.height) * maxTilt;
+
+            card.style.transform = `perspective(1000px) rotateX(${tiltY}deg) rotateY(${tiltX}deg) translateY(-4px)`;
+            
+            // Apply parallax effect to profile image
+            const profileImage = card.querySelector('.profile-image');
+            if (profileImage) {
+                profileImage.style.transform = `translate(${tiltX * 0.2}px, ${tiltY * 0.2}px) scale(1.05)`;
+            }
+        }
+
+        // Reset card position when mouse leaves
+        function resetCardPosition() {
+            // Only reset if gyroscope is not active
+            if (isGyroSupported && window.innerWidth <= 768) return;
+            
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+            
+            const profileImage = card.querySelector('.profile-image');
+            if (profileImage) {
+                profileImage.style.transform = 'translate(0px, 0px) scale(1)';
+            }
+        }
+
+        // Initialize gyroscope
+        function initGyroscope() {
+            if (typeof DeviceOrientationEvent !== 'undefined') {
+                // For iOS 13+ devices, request permission
                 if (typeof DeviceOrientationEvent.requestPermission === 'function') {
                     DeviceOrientationEvent.requestPermission()
                         .then(response => {
                             if (response === 'granted') {
-                                enableDeviceMotion();
+                                isGyroSupported = true;
+                                window.addEventListener('deviceorientation', handleOrientation);
+                                showGyroIndicator();
+                            } else {
+                                isGyroSupported = false;
                             }
                         })
-                        .catch(console.error);
+                        .catch(() => {
+                            isGyroSupported = false;
+                        });
                 } else {
-                    // For other devices
-                    enableDeviceMotion();
+                    // For other devices (Android, older iOS)
+                    isGyroSupported = true;
+                    window.addEventListener('deviceorientation', handleOrientation);
+                    showGyroIndicator();
                 }
-            }
-        }
-        
-        function enableDeviceMotion() {
-            isDeviceMotionEnabled = true;
-            showGyroIndicator();
-            
-            window.addEventListener('deviceorientation', function(e) {
-                // Convert device orientation to card rotation
-                const beta = e.beta || 0;   // X-axis rotation (-180 to 180)
-                const gamma = e.gamma || 0; // Y-axis rotation (-90 to 90)
-                
-                // Normalize and limit rotation values
-                const rotateX = Math.max(-15, Math.min(15, beta / 6));
-                const rotateY = Math.max(-15, Math.min(15, gamma / 3));
-                
-                deviceMotionData = { rotateX, rotateY };
-                
-                // Only apply if not hovering with mouse
-                if (!card.matches(':hover')) {
-                    updateCardTransform(rotateX, rotateY, -2);
-                }
-            });
-        }
-        
-        function updateCardTransform(rotateX, rotateY, translateY) {
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(${translateY}px)`;
-        }
-        
-        // Mouse interactions (desktop)
-        card.addEventListener('mousemove', function(e) {
-            if (!isDeviceMotionEnabled || window.innerWidth > 768) {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateX = (y - centerY) / 20;
-                const rotateY = (centerX - x) / 20;
-                
-                updateCardTransform(rotateX, rotateY, -4);
-            }
-        });
-
-        card.addEventListener('mouseleave', function() {
-            if (!isDeviceMotionEnabled || window.innerWidth > 768) {
-                updateCardTransform(0, 0, 0);
             } else {
-                // Return to device motion position
-                updateCardTransform(deviceMotionData.rotateX, deviceMotionData.rotateY, -2);
-            }
-        });
-        
-        // Touch interactions for mobile
-        card.addEventListener('touchstart', function(e) {
-            if (isDeviceMotionEnabled) {
-                // Add a subtle scale effect on touch
-                card.style.transform += ' scale(1.02)';
-            }
-        });
-        
-        card.addEventListener('touchend', function(e) {
-            if (isDeviceMotionEnabled) {
-                // Remove scale effect
-                updateCardTransform(deviceMotionData.rotateX, deviceMotionData.rotateY, -2);
-            }
-        });
-        
-        // Initialize device motion after user interaction (required for iOS)
-        let motionInitialized = false;
-        function initMotionOnInteraction() {
-            if (!motionInitialized) {
-                motionInitialized = true;
-                initDeviceMotion();
+                isGyroSupported = false;
             }
         }
-        
-        document.addEventListener('click', initMotionOnInteraction);
-        document.addEventListener('touchstart', initMotionOnInteraction);
-        
+
         // Gyroscope indicator management
         const gyroIndicator = document.getElementById('gyroIndicator');
         let indicatorTimeout;
         
         function showGyroIndicator() {
-            if (window.innerWidth <= 768) {
+            if (window.innerWidth <= 768 && isGyroSupported) {
                 gyroIndicator.classList.add('show');
                 
                 clearTimeout(indicatorTimeout);
                 indicatorTimeout = setTimeout(() => {
                     gyroIndicator.classList.remove('show');
-                }, 5000); // Hide after 5 seconds
+                }, 4000); // Hide after 4 seconds
             }
         }
         
@@ -813,11 +811,41 @@
             gyroIndicator.classList.remove('show');
             clearTimeout(indicatorTimeout);
         }
-        
-        // Show indicator when device motion is enabled
-        // Hide indicator on card interaction
-        card.addEventListener('touchstart', hideGyroIndicator);
-        card.addEventListener('mouseenter', hideGyroIndicator);
+
+        // Event listeners for mouse interactions
+        card.addEventListener('mousemove', handleMouseMove);
+        card.addEventListener('mouseleave', resetCardPosition);
+
+        // Touch events to trigger iOS permission request
+        card.addEventListener('touchstart', function() {
+            if (window.innerWidth <= 768 && !isGyroSupported) {
+                initGyroscope();
+            }
+            hideGyroIndicator();
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.innerWidth <= 768) {
+                // Try to initialize gyroscope for mobile devices
+                initGyroscope();
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth <= 768) {
+                if (!isGyroSupported) {
+                    initGyroscope();
+                }
+            } else {
+                // Disable gyroscope for desktop
+                isGyroSupported = false;
+                window.removeEventListener('deviceorientation', handleOrientation);
+                hideGyroIndicator();
+                resetCardPosition();
+            }
+        });
 
         // Contact interactions
         document.querySelectorAll('.contact-item').forEach(item => {
