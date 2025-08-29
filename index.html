@@ -1,0 +1,834 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anderson Quispe - Ingeniero de Software con IA</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 25%, #94a3b8 50%, #64748b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .subtle-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(226, 232, 240, 0.9) 0%, transparent 60%),
+                radial-gradient(circle at 80% 20%, rgba(148, 163, 184, 0.7) 0%, transparent 60%),
+                radial-gradient(circle at 40% 40%, rgba(100, 116, 139, 0.5) 0%, transparent 60%);
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 360px;
+        }
+
+        .business-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(30px);
+            border-radius: 24px;
+            box-shadow: 
+                0 15px 45px rgba(0, 29, 57, 0.2),
+                0 6px 15px rgba(0, 29, 57, 0.15),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .business-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 
+                0 30px 60px rgba(0, 29, 57, 0.25),
+                0 15px 25px rgba(0, 29, 57, 0.2),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Header Section */
+        .header {
+            padding: 28px 24px 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #001D39 0%, #0A4174 50%, #49769F 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(123, 189, 232, 0.2) 50%, transparent 70%);
+            animation: shine 3s ease-in-out infinite;
+        }
+
+        @keyframes shine {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+        }
+
+        .profile-container {
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            padding: 2px;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 0 auto;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .profile-image:hover::after {
+            opacity: 1;
+            animation: rotate 1s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .profile-image:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .name {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 6px;
+            letter-spacing: -0.02em;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .title {
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 3px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 400;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+
+        .ai-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(15px);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Content Section */
+        .content {
+            padding: 20px 24px;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            position: relative;
+            padding-left: 16px;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 16px;
+            background: linear-gradient(135deg, #4E8EA2, #6EA2B3);
+            border-radius: 2px;
+        }
+
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 14px;
+            border: 1px solid rgba(78, 142, 162, 0.15);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(78, 142, 162, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .contact-item:hover::before {
+            left: 100%;
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 1);
+            border-color: rgba(78, 142, 162, 0.3);
+            transform: translateX(4px) translateY(-2px);
+            box-shadow: 0 8px 24px rgba(78, 142, 162, 0.2);
+        }
+
+        .contact-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #4E8EA2, #6EA2B3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            flex-shrink: 0;
+            box-shadow: 0 3px 10px rgba(78, 142, 162, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover .contact-icon {
+            transform: scale(1.1);
+            box-shadow: 0 5px 16px rgba(78, 142, 162, 0.4);
+        }
+
+        .contact-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .contact-label {
+            font-size: 11px;
+            color: #a0aec0;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 2px;
+        }
+
+        .contact-value {
+            font-size: 14px;
+            color: #2d3748;
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .social-link {
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(78, 142, 162, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4a5568;
+            font-size: 20px;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link:hover {
+            transform: translateY(-1px) scale(1.01);
+            color: #4a5568;
+            border: 2px solid rgba(78, 142, 162, 0.6);
+            box-shadow: 
+                0 0 15px rgba(78, 142, 162, 0.4),
+                0 0 30px rgba(123, 189, 232, 0.2),
+                inset 0 0 20px rgba(123, 189, 232, 0.1);
+        }
+
+        .social-link i {
+            position: relative;
+            z-index: 1;
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .skill-badge {
+            background: linear-gradient(135deg, #49769F, #7BBDE8);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(73, 118, 159, 0.25);
+        }
+
+        .skill-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(73, 118, 159, 0.35);
+        }
+
+        .qr-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #001D39, #0A4174);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 12px rgba(0, 29, 57, 0.3);
+        }
+
+        .qr-button:hover {
+            background: linear-gradient(135deg, #4E8EA2, #6EA2B3);
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 24px rgba(78, 142, 162, 0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 400px) {
+            .container {
+                max-width: 100%;
+            }
+            
+            .header {
+                padding: 24px 20px 20px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .profile-image {
+                width: 90px;
+                height: 90px;
+            }
+            
+            .name {
+                font-size: 22px;
+            }
+            
+            .social-grid {
+                gap: 6px;
+            }
+        }
+
+        /* Animation */
+        .fade-in {
+            animation: fadeIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .stagger-item {
+            opacity: 0;
+            animation: fadeInStagger 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes fadeInStagger {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .stagger-item:nth-child(1) { animation-delay: 0.1s; }
+        .stagger-item:nth-child(2) { animation-delay: 0.2s; }
+
+        /* QR Popup */
+        .qr-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .qr-popup.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .qr-popup-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            max-width: 320px;
+            width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .qr-popup.show .qr-popup-content {
+            transform: scale(1);
+        }
+
+        .qr-popup h3 {
+            color: #2d3748;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .qr-popup p {
+            color: #4a5568;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        #qrcode {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .qr-close {
+            background: linear-gradient(135deg, #4E8EA2, #6EA2B3);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .qr-close:hover {
+            background: linear-gradient(135deg, #001D39, #0A4174);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="subtle-bg"></div>
+    
+    <div class="container">
+        <div class="business-card fade-in" id="businessCard">
+            <div class="header">
+                <div class="ai-badge">
+                    <i class="fas fa-robot"></i> AI
+                </div>
+                
+                <div class="profile-container">
+                    <div class="profile-image">
+                        <img src="https://avatars.githubusercontent.com/u/90811397?v=4" alt="Anderson Quispe">
+                    </div>
+                </div>
+                
+                <div class="name">Anderson Quispe</div>
+                <div class="title">Ingeniero de Software</div>
+                <div class="subtitle">Especialista en Inteligencia Artificial</div>
+            </div>
+
+            <div class="content">
+                <div class="section">
+                    <div class="section-title">Contacto</div>
+                    <div class="contact-list">
+                        <div class="contact-item stagger-item" data-contact="phone">
+                            <div class="contact-icon">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <div class="contact-info">
+                                <div class="contact-label">WhatsApp</div>
+                                <div class="contact-value">942287756</div>
+                            </div>
+                        </div>
+
+                        <div class="contact-item stagger-item" data-contact="email">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-info">
+                                <div class="contact-label">Email</div>
+                                <div class="contact-value">andiquispe9422@gmail.com</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Redes Sociales</div>
+                    <div class="social-grid">
+                        <a href="https://github.com/Andiquis" class="social-link" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://wa.me/51942287756" class="social-link" title="WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@andi._.q" class="social-link" title="TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                        <a href="mailto:andiquispe9422@gmail.com" class="social-link" title="Email">
+                            <i class="fas fa-paper-plane"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Especialidades</div>
+                    <div class="skills-container">
+                        <span class="skill-badge">Machine Learning</span>
+                        <span class="skill-badge">Computer Vision</span>
+                        <span class="skill-badge">Full Stack</span>
+                        <span class="skill-badge">IoT Development</span>
+                        <span class="skill-badge">Generative AI</span>
+                        <span class="skill-badge">Mobile Dev</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="qr-button" title="Código QR" id="qrButton">
+                <i class="fas fa-qrcode"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Popup -->
+    <div class="qr-popup" id="qrPopup">
+        <div class="qr-popup-content">
+            <h3>Mi GitHub</h3>
+            <p>Escanea el código QR para visitar mi perfil</p>
+            <div id="qrcode"></div>
+            <button class="qr-close" onclick="closeQRPopup()">Cerrar</button>
+        </div>
+    </div>
+
+    <script>
+        // Smooth card tilt effect
+        const card = document.getElementById('businessCard');
+        
+        card.addEventListener('mousemove', function(e) {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 20;
+            const rotateY = (centerX - x) / 20;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+        });
+
+        card.addEventListener('mouseleave', function() {
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+        });
+
+        // Contact interactions
+        document.querySelectorAll('.contact-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const contactType = this.getAttribute('data-contact');
+                const value = this.querySelector('.contact-value').textContent;
+                
+                if (contactType === 'email' || contactType === 'phone') {
+                    navigator.clipboard.writeText(value).then(() => {
+                        // Visual feedback
+                        const icon = this.querySelector('.contact-icon');
+                        const originalIcon = icon.innerHTML;
+                        
+                        icon.innerHTML = '<i class="fas fa-check"></i>';
+                        icon.style.background = 'linear-gradient(135deg, #7BBDE8, #BDD8E9)';
+                        
+                        setTimeout(() => {
+                            icon.innerHTML = originalIcon;
+                            icon.style.background = 'linear-gradient(135deg, #4E8EA2, #6EA2B3)';
+                        }, 1500);
+                        
+                        showNotification(`${contactType === 'email' ? 'Email' : 'TelÃ©fono'} copiado`);
+                    });
+                }
+            });
+        });
+
+        // Social links
+        document.querySelectorAll('.social-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                this.style.transform = 'translateY(-2px) scale(0.95)';
+                
+                setTimeout(() => {
+                    this.style.transform = 'translateY(-2px) scale(1)';
+                    setTimeout(() => {
+                        window.open(this.href, '_blank');
+                    }, 100);
+                }, 100);
+            });
+        });
+
+        // QR button
+        document.querySelector('.qr-button').addEventListener('click', function() {
+            this.style.transform = 'scale(1.2) rotate(360deg)';
+            this.style.background = 'linear-gradient(135deg, #4E8EA2, #6EA2B3)';
+            
+            setTimeout(() => {
+                this.style.transform = 'scale(1) rotate(0deg)';
+                this.style.background = 'linear-gradient(135deg, #001D39, #0A4174)';
+                showQRPopup();
+            }, 600);
+        });
+
+        // QR Popup functions
+        function showQRPopup() {
+            const popup = document.getElementById('qrPopup');
+            const qrcode = document.getElementById('qrcode');
+            
+            // Clear previous QR code
+            qrcode.innerHTML = '';
+            
+            try {
+                // Generate QR code using QR-Server API
+                const githubUrl = 'https://github.com/Andiquis';
+                const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(githubUrl)}&bgcolor=FFFFFF&color=001D39&margin=10&ecc=M`;
+                
+                // Create QR code image
+                const qrImg = document.createElement('img');
+                qrImg.src = qrApiUrl;
+                qrImg.alt = 'QR Code GitHub';
+                qrImg.style.cssText = `
+                    width: 200px;
+                    height: 200px;
+                    border: 8px solid white;
+                    border-radius: 12px;
+                    box-shadow: 0 8px 24px rgba(0, 29, 57, 0.2);
+                    transition: transform 0.3s ease;
+                `;
+                
+                // Add hover effect
+                qrImg.addEventListener('mouseenter', () => {
+                    qrImg.style.transform = 'scale(1.05)';
+                });
+                
+                qrImg.addEventListener('mouseleave', () => {
+                    qrImg.style.transform = 'scale(1)';
+                });
+                
+                // Handle image load error
+                qrImg.addEventListener('error', () => {
+                    qrcode.innerHTML = `
+                        <div style="padding: 40px; text-align: center; color: #4a5568;">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 24px; margin-bottom: 10px; color: #f56565;"></i>
+                            <p style="margin: 10px 0; font-weight: 600;">Error al cargar el código QR</p>
+                            <p style="font-size: 12px; margin-top: 5px;">Visita manualmente:</p>
+                            <a href="${githubUrl}" target="_blank" style="color: #4E8EA2; text-decoration: none; font-weight: 600;">github.com/Andiquis</a>
+                        </div>
+                    `;
+                });
+                
+                qrcode.appendChild(qrImg);
+                
+            } catch (error) {
+                console.error('Error generating QR code:', error);
+                qrcode.innerHTML = `
+                    <div style="padding: 40px; text-align: center; color: #4a5568;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 24px; margin-bottom: 10px; color: #f56565;"></i>
+                        <p style="margin: 10px 0; font-weight: 600;">Error al generar el código QR</p>
+                        <p style="font-size: 12px; margin-top: 5px;">Visita manualmente:</p>
+                        <a href="https://github.com/Andiquis" target="_blank" style="color: #4E8EA2; text-decoration: none; font-weight: 600;">github.com/Andiquis</a>
+                    </div>
+                `;
+            }
+            
+            popup.classList.add('show');
+        }
+
+        function closeQRPopup() {
+            const popup = document.getElementById('qrPopup');
+            popup.classList.remove('show');
+        }
+
+        // Close popup when clicking outside
+        document.getElementById('qrPopup').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeQRPopup();
+            }
+        });
+
+        // Simple notification
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #001D39, #0A4174);
+                color: white;
+                padding: 12px 20px;
+                border-radius: 12px;
+                font-size: 14px;
+                font-weight: 600;
+                z-index: 1000;
+                opacity: 0;
+                transform: translateX(100%) scale(0.9);
+                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                box-shadow: 0 8px 24px rgba(0, 29, 57, 0.3);
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateX(0) scale(1)';
+            }, 10);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(100%) scale(0.9)';
+                setTimeout(() => notification.remove(), 400);
+            }, 2500);
+        }
+
+        // Initialize animations
+        window.addEventListener('load', function() {
+            const staggerItems = document.querySelectorAll('.stagger-item');
+            staggerItems.forEach((item, index) => {
+                item.style.animationDelay = `${(index + 1) * 0.1}s`;
+            });
+        });
+    </script>
+</body>
+</html>
