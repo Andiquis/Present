@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="image.png" alt="InsightFace Login" width="800" style="border-radius:16px; box-shadow: 0 8px 32px rgba(0,0,0,0.3)">
+</p>
+
 # Anderson Quispe - Tarjeta de Presentación Digital
 
 Una tarjeta de presentación digital moderna y elegante para Anderson Quispe, Ingeniero de Software especialista en Inteligencia Artificial.
