@@ -2,58 +2,82 @@
   <img src="image.png" alt="InsightFace Login" width="800" style="border-radius:16px; box-shadow: 0 8px 32px rgba(0,0,0,0.3)">
 </p>
 
-# Anderson Quispe - Tarjeta de Presentación Digital
+<h1 align="center">✨ Anderson Quispe — Tarjeta de Presentación Digital</h1>
 
-Una tarjeta de presentación digital moderna y elegante para Anderson Quispe, Ingeniero de Software especialista en Inteligencia Artificial.
+<p align="center">
+Ingeniero de Software · Arquitecto de sistemas · Constructor de ideas que respiran en código
+</p>
+
+---
+
+<p align="center">
+  <a href="https://andiquis.github.io/Present/" target="_blank">
+    <img src="https://img.shields.io/badge/🚀 Ver%20Vista%20Previa-Explorar%20Ahora-0A4174?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Ver Demo">
+  </a>
+</p>
+
+---
+
+## 🌌 Visión
+
+Una tarjeta digital no es solo contacto…  
+es presencia.  
+Es la primera impresión antes del apretón de manos.  
+
+Este proyecto encapsula identidad, tecnología y diseño en una experiencia ligera, elegante y viva.
+
+---
 
 ## 🚀 Características
 
-- **Diseño Moderno**: Interfaz limpia y profesional con glassmorphism
-- **Responsive**: Totalmente adaptable a dispositivos móviles y desktop
-- **Interactivo**: Animaciones suaves y efectos de hover
-- **Código QR**: Generación automática de código QR para GitHub
-- **Funcionalidades**:
-  - Copia automática de información de contacto
-  - Enlaces directos a redes sociales
-  - Visualización de especialidades técnicas
-  - Popup con código QR para GitHub
+- 🧊 **Glassmorphism moderno** — transparencia con carácter  
+- 📱 **Responsive total** — fluye en cualquier pantalla  
+- ⚡ **Interactividad suave** — cada hover responde, cada click vive  
+- 🔗 **Accesos directos inteligentes** — contacto en un toque  
+- 🧬 **Código QR dinámico** — puente instantáneo hacia GitHub  
 
-## 🛠️ Tecnologías Utilizadas
+---
 
-- **HTML5**: Estructura semántica
-- **CSS3**: Estilos avanzados con gradientes y animaciones
-- **JavaScript**: Interactividad y funcionalidades dinámicas
-- **Font Awesome**: Iconografía
-- **Google Fonts**: Tipografía (Inter)
+## 🧠 Funcionalidades
 
-## 📱 Funcionalidades
+### 📞 Contacto Inteligente
+- WhatsApp directo  
+- Email con acceso inmediato  
+- Copiado automático al portapapeles  
 
-### Información de Contacto
-- **WhatsApp**: 942287756
-- **Email**: andiquispe9422@gmail.com
-- Copia automática al portapapeles con un clic
+### 🌐 Presencia Digital
+- GitHub: [@Andiquis](https://github.com/Andiquis)  
+- TikTok: [@andi._.q](https://www.tiktok.com/@andi._.q)  
+- Integración directa con canales de contacto  
 
-### Redes Sociales
-- GitHub: [@Andiquis](https://github.com/Andiquis)
-- WhatsApp: Contacto directo
-- TikTok: [@andi._.q](https://www.tiktok.com/@andi._.q)
-- Email: Enlace directo
+### 🧩 Especialidades
+- Machine Learning  
+- Computer Vision  
+- Full Stack Development  
+- IoT  
+- Generative AI  
+- Mobile Development  
 
-### Especialidades Técnicas
-- Machine Learning
-- Computer Vision
-- Full Stack Development
-- IoT Development
-- Generative AI
-- Mobile Development
+---
+
+## 🛠️ Tecnologías
+
+- ⚙️ **HTML5** — estructura sólida  
+- 🎨 **CSS3** — animaciones y estética avanzada  
+- 🧠 **JavaScript** — lógica viva  
+- 🎯 **Font Awesome** — iconografía precisa  
+- ✍️ **Google Fonts (Inter)** — claridad tipográfica  
+
+---
 
 ## 🎨 Diseño
 
-El diseño utiliza una paleta de colores profesional:
-- **Primario**: Azul corporativo (#001D39, #0A4174)
-- **Secundario**: Azul claro (#4E8EA2, #6EA2B3)
-- **Acentos**: Celeste (#7BBDE8, #BDD8E9)
-- **Fondo**: Gradiente sutil en grises
+- 🔵 Primario: `#001D39`, `#0A4174`  
+- 🌊 Secundario: `#4E8EA2`, `#6EA2B3`  
+- 💡 Acentos: `#7BBDE8`, `#BDD8E9`  
+- 🌫️ Fondo: gradientes suaves en grises  
+
+---
 
 ## 📋 Instalación y Uso
 
